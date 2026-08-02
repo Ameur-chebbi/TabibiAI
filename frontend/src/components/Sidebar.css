@@ -1,0 +1,143 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-right: 1px solid #e8edf3;
+  z-index: 1000;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 25px;
+  border-bottom: 1px solid #eef1f5;
+}
+
+.sidebar-logo {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #ffffff;
+  background-color: #2563eb;
+}
+
+.sidebar-brand-text h2 {
+  margin: 0;
+  color: #182230;
+  font-size: 21px;
+}
+
+.sidebar-brand-text p {
+  margin: 4px 0 0;
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 25px;
+}
+
+.sidebar-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
+  color: #667085;
+  background-color: transparent;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.sidebar-item:hover {
+  color: #2563eb;
+  background-color: #f5f8ff;
+}
+
+.sidebar-item.active {
+  color: #2563eb;
+  background-color: #eff6ff;
+  font-weight: 600;
+}
+
+.sidebar-badge {
+  margin-left: auto;
+  min-width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  background-color: #ef4444;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid #eef1f5;
+}
+
+.sidebar-logout:hover {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+@media (max-width: 850px) {
+  .sidebar {
+    width: 80px;
+    padding: 20px 10px;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+  }
+
+  .sidebar-brand-text {
+    display: none;
+  }
+
+  .sidebar-item {
+    justify-content: center;
+    padding: 13px;
+  }
+
+  .sidebar-item span:not(.sidebar-badge) {
+    display: none;
+  }
+
+  .sidebar-badge {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+  }
+}

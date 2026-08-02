@@ -1,0 +1,644 @@
+.rendezvous-page-layout {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.rendezvous-main-content {
+  width: calc(100% - 250px);
+  min-height: 100vh;
+  margin-left: 250px;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.rendezvous-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 28px;
+}
+
+.rendezvous-header h1 {
+  margin: 0 0 8px;
+  color: #101828;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.rendezvous-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.new-appointment-button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 17px;
+  border: none;
+  border-radius: 11px;
+  color: #ffffff;
+  background-color: #2563eb;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.new-appointment-button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.rendezvous-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.rendezvous-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 21px;
+  border: 1px solid #e8edf3;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.04);
+}
+
+.rendezvous-stat-icon {
+  width: 49px;
+  height: 49px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+}
+
+.rendezvous-stat-icon.total {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.rendezvous-stat-icon.pending {
+  color: #ea580c;
+  background-color: #fff7ed;
+}
+
+.rendezvous-stat-icon.confirmed {
+  color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+.rendezvous-stat-icon.refused {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.rendezvous-stat-card > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rendezvous-stat-card span {
+  color: #667085;
+  font-size: 13px;
+}
+
+.rendezvous-stat-card strong {
+  color: #101828;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.rendezvous-card {
+  overflow: hidden;
+  border: 1px solid #e8edf3;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 7px 22px rgba(16, 24, 40, 0.05);
+}
+
+.rendezvous-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px;
+  border-bottom: 1px solid #e8edf3;
+}
+
+.rendezvous-search {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  color: #98a2b3;
+  background-color: #f8fafc;
+}
+
+.rendezvous-search:focus-within {
+  border-color: #93b4ff;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.rendezvous-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 0;
+  border: none;
+  outline: none;
+  color: #344054;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.rendezvous-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rendezvous-filter {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border: 1px solid #dce3eb;
+  border-radius: 9px;
+  color: #667085;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rendezvous-filter:hover {
+  color: #2563eb;
+  border-color: #bfdbfe;
+  background-color: #f8fbff;
+}
+
+.rendezvous-filter.active {
+  color: #2563eb;
+  border-color: #bfdbfe;
+  background-color: #eff6ff;
+}
+
+.rendezvous-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.rendezvous-table {
+  width: 100%;
+  min-width: 1250px;
+  border-collapse: collapse;
+}
+
+.rendezvous-table th {
+  padding: 14px 18px;
+  color: #667085;
+  background-color: #f9fafb;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rendezvous-table td {
+  padding: 17px 18px;
+  border-top: 1px solid #edf0f4;
+  color: #475467;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.rendezvous-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.rendezvous-table tbody tr:hover {
+  background-color: #fcfcfd;
+}
+
+.rendezvous-patient-cell {
+  min-width: 205px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.rendezvous-patient-avatar {
+  width: 41px;
+  height: 41px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #2563eb;
+  background-color: #dbeafe;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rendezvous-patient-cell > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rendezvous-patient-cell strong {
+  color: #101828;
+  font-size: 13px;
+}
+
+.rendezvous-patient-cell span {
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+.rendezvous-time {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #344054;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.language-badge,
+.source-badge,
+.appointment-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 82px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.language-badge {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+}
+
+.source-badge.whatsapp {
+  color: #15803d;
+  background-color: #dcfce7;
+}
+
+.source-badge.manual {
+  color: #475467;
+  background-color: #f2f4f7;
+}
+
+.appointment-status.en-attente {
+  color: #c2410c;
+  background-color: #ffedd5;
+}
+
+.appointment-status.confirme {
+  color: #15803d;
+  background-color: #dcfce7;
+}
+
+.appointment-status.refuse {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+.rendezvous-actions {
+  min-width: 310px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.rendezvous-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.rendezvous-action:hover {
+  transform: translateY(-1px);
+}
+
+.rendezvous-action.confirm {
+  color: #15803d;
+  background-color: #dcfce7;
+}
+
+.rendezvous-action.confirm:hover {
+  background-color: #bbf7d0;
+}
+
+.rendezvous-action.refuse {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+.rendezvous-action.refuse:hover {
+  background-color: #fecaca;
+}
+
+.rendezvous-action.propose {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.rendezvous-action.propose:hover {
+  background-color: #dbeafe;
+}
+
+.no-appointments {
+  padding: 35px;
+  color: #98a2b3;
+  text-align: center;
+}
+
+.rendezvous-notification {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 1200;
+  width: min(430px, calc(100% - 50px));
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 17px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background-color: #ffffff;
+  box-shadow: 0 18px 45px rgba(16, 24, 40, 0.18);
+}
+
+.rendezvous-notification-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.rendezvous-notification p {
+  margin: 0;
+  color: #344054;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.rendezvous-notification > button {
+  display: flex;
+  padding: 2px;
+  border: none;
+  color: #98a2b3;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.rendezvous-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(3px);
+}
+
+.rendezvous-modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  border-radius: 18px;
+  background-color: #ffffff;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.25);
+}
+
+.rendezvous-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 24px;
+  border-bottom: 1px solid #e8edf3;
+}
+
+.rendezvous-modal-header h2 {
+  margin: 0 0 7px;
+  color: #101828;
+  font-size: 21px;
+}
+
+.rendezvous-modal-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.rendezvous-modal-close {
+  display: flex;
+  padding: 6px;
+  border: none;
+  border-radius: 8px;
+  color: #667085;
+  background-color: #f2f4f7;
+  cursor: pointer;
+}
+
+.rendezvous-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+}
+
+.rendezvous-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.rendezvous-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rendezvous-form-group label {
+  color: #344054;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rendezvous-form-group input,
+.rendezvous-form-group select {
+  width: 100%;
+  min-height: 47px;
+  padding: 0 13px;
+  box-sizing: border-box;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  outline: none;
+  color: #101828;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.rendezvous-form-group input:focus,
+.rendezvous-form-group select:focus {
+  border-color: #93b4ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.rendezvous-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.modal-cancel-button,
+.modal-submit-button {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-cancel-button {
+  color: #475467;
+  background-color: #f2f4f7;
+}
+
+.modal-submit-button {
+  color: #ffffff;
+  background-color: #2563eb;
+}
+
+.modal-submit-button:hover {
+  background-color: #1d4ed8;
+}
+
+@media (max-width: 1100px) {
+  .rendezvous-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rendezvous-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rendezvous-search {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rendezvous-filters {
+    overflow-x: auto;
+    padding-bottom: 3px;
+  }
+}
+
+@media (max-width: 850px) {
+  .rendezvous-main-content {
+    width: calc(100% - 80px);
+    margin-left: 80px;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 650px) {
+  .rendezvous-main-content {
+    padding: 18px 12px;
+  }
+
+  .rendezvous-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rendezvous-header h1 {
+    font-size: 26px;
+  }
+
+  .new-appointment-button {
+    width: 100%;
+  }
+
+  .rendezvous-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .rendezvous-toolbar {
+    padding: 15px;
+  }
+
+  .rendezvous-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rendezvous-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-cancel-button,
+  .modal-submit-button {
+    width: 100%;
+  }
+}
