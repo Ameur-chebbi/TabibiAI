@@ -167,38 +167,34 @@ function Messages() {
   }, []);
 
   useEffect(() => {
-    if (!selectedConversationId) {
-      return undefined;
-    }
-
     const selectedPatient = conversations.find(
       (conversation) => conversation.id === selectedConversationId
     );
 
-    if (!selectedPatient?.patientId) {
+    if (!selectedConversationId || !selectedPatient?.patientId) {
       return undefined;
     }
 
     const channel = supabase
-      .channel("conversation-changes")
+      .channel(`conversation-${selectedConversationId}`)
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "conversations",
           filter: `patient_id=eq.${selectedPatient.patientId}`,
         },
         (payload) => {
-          console.log("Realtime message received", payload);
+          console.log("Realtime update:", payload);
 
-          const insertedRow = payload.new;
+          const updatedRow = payload.new ?? payload.old;
 
-          if (!insertedRow) {
+          if (!updatedRow || payload.eventType === "DELETE") {
             return;
           }
 
-          const nextMessage = buildMessageFromEntry(insertedRow);
+          const nextMessage = buildMessageFromEntry(updatedRow);
 
           setMessages((currentMessages) => {
             const alreadyExists = currentMessages.some((message) => message.id === nextMessage.id);
@@ -207,9 +203,7 @@ function Messages() {
               return currentMessages;
             }
 
-            const updatedMessages = sortMessagesByCreatedAt([...currentMessages, nextMessage]);
-            console.log("Updated messages state", updatedMessages);
-            return updatedMessages;
+            return sortMessagesByCreatedAt([...currentMessages, nextMessage]);
           });
 
           setConversations((current) => {
@@ -222,7 +216,7 @@ function Messages() {
             }
 
             const messageAlreadyExists = targetConversation.messages.some(
-              (message) => message.id === insertedRow.id
+              (message) => message.id === nextMessage.id
             );
 
             if (messageAlreadyExists) {
@@ -238,9 +232,9 @@ function Messages() {
               conversation.patientId === selectedPatient.patientId
                 ? {
                     ...conversation,
-                    preview: insertedRow.message || "",
-                    time: formatConversationTime(insertedRow.created_at),
-                    latestMessageTimestamp: insertedRow.created_at || conversation.latestMessageTimestamp,
+                    preview: updatedRow.message || "",
+                    time: formatConversationTime(updatedRow.created_at),
+                    latestMessageTimestamp: updatedRow.created_at || conversation.latestMessageTimestamp,
                     messages: nextConversationMessages,
                   }
                 : conversation
@@ -249,15 +243,13 @@ function Messages() {
         }
       )
       .subscribe((status) => {
-        if (status !== "SUBSCRIBED") {
-          console.error("Realtime subscription error", status);
-        }
+        console.log("Realtime status:", status);
       });
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [selectedConversationId, conversations]);
+  }, [selectedConversationId, selectedConversation?.patientId]);
 
   const filteredConversations = useMemo(() => {
     return conversations.filter((conversation) =>
@@ -345,13 +337,47 @@ function Messages() {
       .filter((message) => message.type === "received")
       .slice(-3);
 
-    const prompt = `Tu es un assistant médical qui aide un docteur à répondre à un patient. Rédige une réponse courte, professionnelle, empathique et adaptée à WhatsApp. Ne répète pas le message du patient. Pose une question de suivi si nécessaire. Aide pour les rendez-vous, leurs modifications, confirmations ou demandes générales. Ne fais jamais de diagnostic, ne donne jamais d'ordonnance, et encourage à consulter le docteur si nécessaire. Historique récent du patient : ${latestPatientMessages
-      .map((message) => `- ${message.text}`)
-      .join("\n") || "Aucun message récent"}
+    const prompt = `You are an intelligent medical secretary helping a doctor manage patient communication.
 
-Exemples de style :
-- Patient : "Je veux prendre un rendez-vous demain" → Réponse : "Bonjour, nous pouvons organiser votre rendez-vous. Pouvez-vous me confirmer l'heure qui vous convient ?"
-- Patient : "Je veux modifier mon rendez-vous" → Réponse : "Bonjour, je peux vous aider à modifier votre rendez-vous. Quelle nouvelle date souhaitez-vous choisir ?"`;
+Analyze the patient's latest messages and conversation history.
+Generate a short, polite, professional reply that the secretary can send to the patient.
+Your role is to help manage the medical cabinet communication.
+
+Rules:
+- Help patients book appointments.
+- Help patients modify or cancel appointments.
+- Ask for missing information needed to manage appointments.
+- Provide cabinet information when available (address, phone number, working hours, specialties, consultation price).
+- Respect the patient's preferred language and reply in the selected language (French, English, or Arabic).
+- Keep replies natural and suitable for WhatsApp communication.
+
+Important rules:
+- Do not provide medical diagnosis.
+- Do not give medical advice.
+- Do not prescribe medication.
+- Do not invent cabinet information.
+- Do not invent appointment availability.
+- If information is missing, politely ask the patient for details or indicate that the secretary will confirm.
+
+Examples:
+Patient: "I want an appointment"
+Suggested reply: "Bonjour, merci pour votre message. Nous pouvons organiser votre rendez-vous. Pouvez-vous nous préciser la date et l'heure qui vous conviennent ?"
+
+Patient: "I want to change my appointment"
+Suggested reply: "Bonjour, nous pouvons modifier votre rendez-vous. Pouvez-vous nous indiquer la nouvelle date ou l'horaire souhaité afin de vérifier les disponibilités ?"
+
+Patient: "Where is the cabinet?"
+Suggested reply: "Bonjour, notre cabinet est situé à [adresse du cabinet]. Nous restons à votre disposition pour toute information complémentaire."
+
+Patient: "How much is the consultation?"
+Suggested reply: "Bonjour, le tarif de la consultation est de [prix]. N'hésitez pas à nous contacter pour organiser votre rendez-vous."
+
+Conversation history:
+${conversationMessages
+  .map((message) => `${message.type === "received" ? "Patient" : "Secretary"}: ${message.text}`)
+  .join("\n") || "Aucun message récent"}
+
+Return only the suggested message text, without explanations.`;
 
     try {
       const response = await fetch("/api/ai-suggestion", {
@@ -360,6 +386,7 @@ Exemples de style :
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          prompt,
           conversationHistory: conversationMessages.map((message) => ({
             sender: message.type === "received" ? "patient" : "doctor",
             message: message.text,
