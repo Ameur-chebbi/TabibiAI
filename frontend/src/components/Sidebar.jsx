@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   MessageSquareText,
@@ -9,10 +9,17 @@ import {
   Stethoscope,
   LogOut,
 } from "lucide-react";
+import { supabase } from "../supabase";
 
 import "./Sidebar.css";
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate("/", { replace: true });
+  }
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -89,7 +96,7 @@ function Sidebar() {
           <span>Paramètres</span>
         </NavLink>
 
-        <button className="sidebar-item sidebar-logout" type="button">
+        <button className="sidebar-item sidebar-logout" type="button" onClick={handleLogout}>
           <LogOut size={20} />
           <span>Déconnexion</span>
         </button>

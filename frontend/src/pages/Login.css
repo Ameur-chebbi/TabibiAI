@@ -384,3 +384,19 @@
     font-size: 28px;
   }
 }
+
+/* Auth error message */
+.login-error {
+  font-size: 0.85rem;
+  color: #e53e3e;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.login-submit-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LockKeyhole, Mail, Stethoscope } from "lucide-react";
+import { supabase } from "../supabase";
 
 import "./Login.css";
 
@@ -10,9 +11,26 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    setLoading(false);
+
+    if (authError) {
+      setError("Email ou mot de passe incorrect.");
+      return;
+    }
+
     navigate("/dashboard");
   }
 
@@ -146,8 +164,18 @@ function Login() {
                 <span>Se souvenir de moi</span>
               </label>
 
-              <button className="login-submit-button" type="submit">
-                Se connecter
+              {error && (
+                <p className="login-error" role="alert">
+                  {error}
+                </p>
+              )}
+
+              <button
+                className="login-submit-button"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Connexion..." : "Se connecter"}
               </button>
             </form>
 
