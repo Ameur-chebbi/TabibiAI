@@ -583,3 +583,74 @@
     max-width: 88%;
   }
 }
+
+/* ── Skeleton loader for conversation list ──────────────────────────────── */
+
+@keyframes conv-shimmer {
+  0%   { background-position: -500px 0; }
+  100% { background-position:  500px 0; }
+}
+
+.conversation-item--skeleton {
+  pointer-events: none;
+  cursor: default;
+}
+
+.conv-skeleton-avatar {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f0f2f5 25%, #e4e7ec 50%, #f0f2f5 75%);
+  background-size: 1000px 100%;
+  animation: conv-shimmer 1.4s ease-in-out infinite;
+}
+
+.conv-skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conv-skeleton-name {
+  height: 13px;
+  width: 55%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f2f5 25%, #e4e7ec 50%, #f0f2f5 75%);
+  background-size: 1000px 100%;
+  animation: conv-shimmer 1.4s ease-in-out infinite;
+}
+
+.conv-skeleton-preview {
+  height: 11px;
+  width: 80%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f2f5 25%, #e4e7ec 50%, #f0f2f5 75%);
+  background-size: 1000px 100%;
+  animation: conv-shimmer 1.4s ease-in-out infinite 0.15s;
+}
+
+/* ── Error state in conversation list ───────────────────────────────────── */
+
+.conversations-error {
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.conversations-error p {
+  margin: 0;
+  color: #c53030;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── Empty chat body ────────────────────────────────────────────────────── */
+
+.chat-empty-state {
+  margin: 0;
+  padding: 40px 0;
+  color: #98a2b3;
+  font-size: 14px;
+  text-align: center;
+}
